@@ -19,6 +19,7 @@
  */
 package com.zyd.shiro.framework.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.zyd.shiro.business.service.ShiroService;
 import com.zyd.shiro.business.shiro.credentials.RetryLimitCredentialsMatcher;
 import com.zyd.shiro.business.shiro.realm.ShiroRealm;
@@ -225,5 +226,12 @@ public class ShiroConfig {
         //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
         cookieRememberMeManager.setCipherKey(Base64.decode("1QWLxg+NYmxraMoxAXu/Iw=="));
         return cookieRememberMeManager;
+    }
+    /**
+     * thymeleaf和shiro标签整合
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }

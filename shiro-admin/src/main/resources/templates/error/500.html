@@ -1,4 +1,7 @@
-<#include "/layout/header.ftl"/>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="layout/header::header(null,null)"></div>
+<body>
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -16,7 +19,7 @@
                                         <form>
                                             <div class="col-xs-12 form-group pull-right top_search">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="Search for..."> <span
+                                                    <input type="text" class="form-control" placeholder="Search for..."/> <span
                                                         class="input-group-btn">
                                                           <a class="btn btn-default" href="javascript:history.go(-1);">Go!</a>
                                                       </span>
@@ -32,4 +35,6 @@
             </div>
         </div>
     </div>
-<#include "/layout/footer.ftl"/>
+<div th:replace="layout/footer::footer"></div>
+</body>
+</html>
