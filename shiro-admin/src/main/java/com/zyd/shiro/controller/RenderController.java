@@ -29,12 +29,27 @@ package com.zyd.shiro.controller;
  * @since 1.0
  */
 
+import com.alibaba.fastjson.JSON;
+import com.zyd.shiro.business.entity.Resources;
+import com.zyd.shiro.business.entity.User;
+import com.zyd.shiro.business.service.SysResourcesService;
+import com.zyd.shiro.business.service.SysUserService;
 import com.zyd.shiro.util.ResultUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * 页面跳转类
@@ -48,9 +63,24 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RenderController {
 
+    @Autowired
+    SysUserService userService;
+
+    @Autowired
+    SysResourcesService resourcesService;
+
     @RequiresAuthentication
     @GetMapping(value = {"", "/index"})
-    public ModelAndView home() {
+    public ModelAndView home(Model model) {
+        Subject subject  = SecurityUtils.getSubject();
+        Long userId = (Long) subject.getPrincipal();
+        User user=userService.getByPrimaryKey(userId);
+        Map<String,Object> map = new HashMap<>();
+        map.put("userId",userId);
+        List<Resources> resources=resourcesService.listUserResources(map);
+        System.out.println(JSON.toJSONString(resources,true));
+        model.addAttribute("user",user);
+        model.addAttribute("resources",resources);
         return ResultUtil.view("index");
     }
 
