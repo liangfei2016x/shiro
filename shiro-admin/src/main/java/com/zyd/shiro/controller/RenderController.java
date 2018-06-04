@@ -34,6 +34,7 @@ import com.zyd.shiro.business.entity.Resources;
 import com.zyd.shiro.business.entity.User;
 import com.zyd.shiro.business.service.SysResourcesService;
 import com.zyd.shiro.business.service.SysUserService;
+import com.zyd.shiro.framework.object.ResponseVO;
 import com.zyd.shiro.util.ResultUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -44,6 +45,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -61,7 +64,8 @@ import java.util.Map;
  * @since 1.0
  */
 @Controller
-public class RenderController {
+public class
+RenderController {
 
     @Autowired
     SysUserService userService;
@@ -71,16 +75,7 @@ public class RenderController {
 
     @RequiresAuthentication
     @GetMapping(value = {"", "/index"})
-    public ModelAndView home(Model model) {
-        Subject subject  = SecurityUtils.getSubject();
-        Long userId = (Long) subject.getPrincipal();
-        User user=userService.getByPrimaryKey(userId);
-        Map<String,Object> map = new HashMap<>();
-        map.put("userId",userId);
-        List<Resources> resources=resourcesService.listUserResources(map);
-        System.out.println(JSON.toJSONString(resources,true));
-        model.addAttribute("user",user);
-        model.addAttribute("resources",resources);
+    public ModelAndView home() {
         return ResultUtil.view("index");
     }
 
@@ -100,6 +95,14 @@ public class RenderController {
     @GetMapping("/roles")
     public ModelAndView roles() {
         return ResultUtil.view("role/list");
+    }
+
+    @GetMapping("/allResource/{userId}")
+    @ResponseBody
+    public ResponseVO allResource(@PathVariable Long userId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId",userId);
+        return ResultUtil.success(resourcesService.listUserResources(map));
     }
 
 }

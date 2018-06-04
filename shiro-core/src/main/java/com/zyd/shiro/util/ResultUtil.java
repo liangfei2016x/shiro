@@ -68,7 +68,9 @@ public class ResultUtil {
     public static ResponseVO success(String message, Object data) {
         return vo(CommonConst.DEFAULT_SUCCESS_CODE, message, data);
     }
-
+    public static ResponseVO success(Object data) {
+        return vo(CommonConst.DEFAULT_SUCCESS_CODE, data);
+    }
     public static ResponseVO success(String message) {
         return success(message, null);
     }
@@ -81,6 +83,9 @@ public class ResultUtil {
         return new ResponseVO<>(code, message, data);
     }
 
+    public static ResponseVO vo(int code, Object data) {
+        return new ResponseVO<>(code,null ,data);
+    }
     public static PageResult tablePage(Long total, List<?> list) {
         return new PageResult(total, list);
     }
