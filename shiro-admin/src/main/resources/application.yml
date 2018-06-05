@@ -1,6 +1,6 @@
 # Server settings
 server:
-    port: 8899
+    port: 8080
     # HTTP请求和响应头的最大量，以字节为单位，默认值为4096字节,超过此长度的部分不予处理,一般8K。解决java.io.EOFException: null问题
     max-http-header-size: 8192
     use-forward-headers: true
@@ -96,12 +96,12 @@ spring:
 
 # MyBatis
 mybatis:
-    type-aliases-package: com.zyd.shiro.persistence.beans
+    type-aliases-package: com.study.shiro.persistence.beans
     mapper-locations: classpath:/mybatis/*.xml
 # mapper
 mapper:
     mappers:
-        - com.zyd.shiro.plugin.BaseMapper
+        - com.study.shiro.plugin.BaseMapper
     not-empty: false
     identity: MYSQL
 # pagehelper
@@ -114,12 +114,12 @@ banner:
     charset: UTF-8
 
 ################################### 程序自定义配置 ###################################
-zyd:
+study:
     druid:
-        # druid访问用户名（默认：zyd-druid）
-        username: zyd-druid
-        # druid访问密码（默认：zyd-druid）
-        password: zyd-druid
+        # druid访问用户名（默认：study-druid）
+        username: study-druid
+        # druid访问密码（默认：study-druid）
+        password: study-druid
         # druid访问地址（默认：/druid/*）
         servletPath: /druid/*
         # 启用重置功能（默认false）
