@@ -25,8 +25,7 @@ import com.study.shiro.business.enums.ResponseStatus;
 import com.study.shiro.business.service.SysUserRoleService;
 import com.study.shiro.business.service.SysUserService;
 import com.study.shiro.business.vo.UserConditionVO;
-import com.study.shiro.framework.object.PageResult;
-import com.study.shiro.framework.object.ResponseVO;
+import com.study.shiro.framework.object.*;
 import com.study.shiro.util.PasswordUtil;
 import com.study.shiro.util.ResultUtil;
 import com.study.shiro.business.entity.User;
@@ -66,9 +65,9 @@ public class RestUserController {
 
     @RequiresPermissions("users")
     @PostMapping("/list")
-    public PageResult list(UserConditionVO vo) {
+    public JsonResult list(UserConditionVO vo) {
         PageInfo<User> pageInfo = userService.findPageBreakByCondition(vo);
-        return ResultUtil.tablePage(pageInfo);
+        return ResultUtil.build(pageInfo);
     }
 
     /**
@@ -82,60 +81,60 @@ public class RestUserController {
      */
     @RequiresPermissions("user:allotRole")
     @PostMapping("/saveUserRoles")
-    public ResponseVO saveUserRoles(Long userId, String roleIds) {
+    public JsonResult saveUserRoles(Long userId, String roleIds) {
         if (StringUtils.isEmpty(userId)) {
-            return ResultUtil.error("error");
+            return ResultUtil.build("error");
         }
         userRoleService.addUserRole(userId, roleIds);
-        return ResultUtil.success("成功");
+        return ResultUtil.build("成功");
     }
 
     @RequiresPermissions("user:add")
     @PostMapping(value = "/add")
-    public ResponseVO add(User user) {
+    public JsonResult add(User user) {
         User u = userService.getByUserName(user.getUsername());
         if (u != null) {
-            return ResultUtil.error("该用户名[" + user.getUsername() + "]已存在！请更改用户名");
+            return ResultUtil.build("该用户名[" + user.getUsername() + "]已存在！请更改用户名");
         }
         try {
             user.setPassword(PasswordUtil.encrypt(user.getPassword(), user.getUsername()));
             userService.insert(user);
-            return ResultUtil.success("成功");
+            return ResultUtil.build(ResponseStatus.SUCCESS,"成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultUtil.error("error");
+            return ResultUtil.build("error");
         }
     }
 
     @RequiresPermissions(value = {"user:batchDelete", "user:delete"}, logical = Logical.OR)
     @PostMapping(value = "/remove")
-    public ResponseVO remove(Long[] ids) {
+    public JsonResult remove(Long[] ids) {
         if (null == ids) {
-            return ResultUtil.error(500, "请至少选择一条记录");
+            return ResultUtil.build(500, "请至少选择一条记录");
         }
         for (Long id : ids) {
             userService.removeByPrimaryKey(id);
             userRoleService.removeByUserId(id);
         }
-        return ResultUtil.success("成功删除 [" + ids.length + "] 个用户");
+        return ResultUtil.build(ResponseStatus.SUCCESS,"成功删除 [" + ids.length + "] 个用户");
     }
 
     @RequiresPermissions("user:edit")
     @PostMapping("/get/{id}")
-    public ResponseVO get(@PathVariable Long id) {
-        return ResultUtil.success(null, this.userService.getByPrimaryKey(id));
+    public JsonResult get(@PathVariable Long id) {
+        return ResultUtil.build(ResponseStatus.SUCCESS, this.userService.getByPrimaryKey(id));
     }
 
     @RequiresPermissions("user:edit")
     @PostMapping("/edit")
-    public ResponseVO edit(User user) {
+    public JsonResult edit(User user) {
         try {
             userService.updateSelective(user);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultUtil.error("用户修改失败！");
+            return ResultUtil.build("用户修改失败！");
         }
-        return ResultUtil.success(ResponseStatus.SUCCESS);
+        return ResultUtil.build(ResponseStatus.SUCCESS);
     }
 
 }

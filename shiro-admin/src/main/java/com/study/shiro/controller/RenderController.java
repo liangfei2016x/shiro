@@ -32,6 +32,7 @@ package com.study.shiro.controller;
 import com.alibaba.fastjson.JSON;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.service.SysUserService;
+import com.study.shiro.framework.object.JsonResult;
 import com.study.shiro.framework.object.ResponseVO;
 import com.study.shiro.util.ResultUtil;
 import com.study.shiro.business.entity.Resources;
@@ -103,10 +104,10 @@ RenderController {
 
     @GetMapping("/allResource/{userId}")
     @ResponseBody
-    public ResponseVO allResource(@PathVariable Long userId){
+    public JsonResult allResource(@PathVariable Long userId){
         Map<String, Object> map = new HashMap<>();
         map.put("userId",userId);
-        return ResultUtil.success(resourcesService.listUserResources(map));
+        return ResultUtil.build(resourcesService.listUserResources(map));
     }
 
 }

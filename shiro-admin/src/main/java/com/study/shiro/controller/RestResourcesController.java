@@ -26,8 +26,7 @@ import com.study.shiro.business.enums.ResponseStatus;
 import com.study.shiro.business.service.ShiroService;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.vo.ResourceConditionVO;
-import com.study.shiro.framework.object.PageResult;
-import com.study.shiro.framework.object.ResponseVO;
+import com.study.shiro.framework.object.*;
 import com.study.shiro.util.ResultUtil;
 import com.study.shiro.business.entity.Resources;
 import com.study.shiro.business.enums.ResponseStatus;
@@ -65,31 +64,31 @@ public class RestResourcesController {
 
     @RequiresPermissions("resources")
     @PostMapping("/list")
-    public PageResult getAll(ResourceConditionVO vo) {
+    public JsonResult getAll(ResourceConditionVO vo) {
         PageInfo<Resources> pageInfo = resourcesService.findPageBreakByCondition(vo);
-        return ResultUtil.tablePage(pageInfo);
+        return ResultUtil.build(pageInfo);
     }
 
     @RequiresPermissions("role:allotResource")
     @PostMapping("/resourcesWithSelected")
-    public ResponseVO resourcesWithSelected(Long rid) {
-        return ResultUtil.success(null, resourcesService.queryResourcesListWithSelected(rid));
+    public JsonResult resourcesWithSelected(Long rid) {
+        return ResultUtil.build(resourcesService.queryResourcesListWithSelected(rid));
     }
 
     @RequiresPermissions("resource:add")
     @PostMapping(value = "/add")
-    public ResponseVO add(Resources resources) {
+    public JsonResult add(Resources resources) {
         resourcesService.insert(resources);
         //更新权限
         shiroService.updatePermission();
-        return ResultUtil.success("成功");
+        return ResultUtil.build(ResponseStatus.SUCCESS,"成功");
     }
 
     @RequiresPermissions(value = {"resource:batchDelete", "resource:delete"}, logical = Logical.OR)
     @PostMapping(value = "/remove")
-    public ResponseVO remove(Long[] ids) {
+    public JsonResult remove(Long[] ids) {
         if (null == ids) {
-            return ResultUtil.error(500, "请至少选择一条记录");
+            return ResultUtil.build(500, "请至少选择一条记录");
         }
         for (Long id : ids) {
             resourcesService.removeByPrimaryKey(id);
@@ -97,24 +96,24 @@ public class RestResourcesController {
 
         //更新权限
         shiroService.updatePermission();
-        return ResultUtil.success("成功删除 [" + ids.length + "] 个资源");
+        return ResultUtil.build(ResponseStatus.SUCCESS,"成功删除 [" + ids.length + "] 个资源");
     }
 
     @RequiresPermissions("resource:edit")
     @PostMapping("/get/{id}")
-    public ResponseVO get(@PathVariable Long id) {
-        return ResultUtil.success(null, this.resourcesService.getByPrimaryKey(id));
+    public JsonResult get(@PathVariable Long id) {
+        return ResultUtil.build(null, this.resourcesService.getByPrimaryKey(id));
     }
 
     @RequiresPermissions("resource:edit")
     @PostMapping("/edit")
-    public ResponseVO edit(Resources resources) {
+    public JsonResult edit(Resources resources) {
         try {
             resourcesService.updateSelective(resources);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultUtil.error("资源修改失败！");
+            return ResultUtil.build("资源修改失败！");
         }
-        return ResultUtil.success(ResponseStatus.SUCCESS);
+        return ResultUtil.build(ResponseStatus.SUCCESS);
     }
 }

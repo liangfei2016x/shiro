@@ -22,6 +22,7 @@ package com.study.shiro.controller;
 import com.study.shiro.business.consts.CommonConst;
 import com.study.shiro.business.enums.ResponseStatus;
 import com.study.shiro.framework.exception.StudyException;
+import com.study.shiro.framework.object.JsonResult;
 import com.study.shiro.framework.object.ResponseVO;
 import com.study.shiro.util.ResultUtil;
 import org.slf4j.Logger;
@@ -48,9 +49,9 @@ public class ExceptionHandleController {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ResponseVO handle(Throwable e) {
+    public JsonResult handle(Throwable e) {
         if (e instanceof StudyException) {
-            return ResultUtil.error(e.getMessage());
+            return ResultUtil.build(e.getMessage());
         }
         if (e instanceof UndeclaredThrowableException) {
             e = ((UndeclaredThrowableException) e).getUndeclaredThrowable();
@@ -58,10 +59,10 @@ public class ExceptionHandleController {
         ResponseStatus responseStatus = ResponseStatus.getResponseStatus(e.getMessage());
         if (responseStatus != null) {
             LOGGER.error(responseStatus.getMessage());
-            return ResultUtil.error(responseStatus.getCode(), responseStatus.getMessage());
+            return ResultUtil.build(responseStatus.getCode(), responseStatus.getMessage());
         }
         e.printStackTrace(); // 打印异常栈
-        return ResultUtil.error(CommonConst.DEFAULT_ERROR_CODE, ResponseStatus.ERROR.getMessage());
+        return ResultUtil.build(CommonConst.DEFAULT_ERROR_CODE, ResponseStatus.ERROR.getMessage());
     }
 
 }

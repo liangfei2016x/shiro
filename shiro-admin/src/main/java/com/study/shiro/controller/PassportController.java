@@ -19,6 +19,8 @@
  */
 package com.study.shiro.controller;
 
+import com.study.shiro.business.enums.ResponseStatus;
+import com.study.shiro.framework.object.JsonResult;
 import com.study.shiro.framework.object.ResponseVO;
 import com.study.shiro.util.ResultUtil;
 import com.study.shiro.framework.object.ResponseVO;
@@ -69,7 +71,7 @@ public class PassportController {
      */
     @PostMapping("/signin")
     @ResponseBody
-    public ResponseVO submitLogin(String username, String password, boolean rememberMe, String kaptcha) {
+    public JsonResult submitLogin(String username, String password, boolean rememberMe, String kaptcha) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         //获取当前的Subject
         Subject currentUser = SecurityUtils.getSubject();
@@ -78,11 +80,11 @@ public class PassportController {
             // 每个Realm都能在必要时对提交的AuthenticationTokens作出反应
             // 所以这一步在调用login(token)方法时,它会走到xxRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
             currentUser.login(token);
-            return ResultUtil.success("登录成功！");
+            return ResultUtil.build("登录成功！");
         } catch (Exception e) {
             logger.error("登录失败，用户名[{}]", username, e);
             token.clear();
-            return ResultUtil.error(e.getMessage());
+            return ResultUtil.build(ResponseStatus.LOGIN_ERROR,e.getMessage());
         }
     }
 
