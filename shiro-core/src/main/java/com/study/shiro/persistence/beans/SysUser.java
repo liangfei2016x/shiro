@@ -20,9 +20,10 @@
 package com.study.shiro.persistence.beans;
 
 import com.study.shiro.framework.object.AbstractDO;
-import com.study.shiro.framework.object.AbstractDO;
+import com.study.shiro.util.PasswordUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
@@ -52,4 +53,21 @@ public class SysUser extends AbstractDO {
     private Integer loginCount;
     private String remark;
     private Integer status;
+
+    public SysUser(){
+        super();
+    }
+
+    public SysUser(String loginname, String password) {
+        this();
+        setUsername(loginname);
+        if (!StringUtils.isEmpty(password)) {
+            try {
+                setPassword(PasswordUtil.encrypt(password, loginname));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

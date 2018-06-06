@@ -21,11 +21,9 @@ package com.study.shiro.business.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.study.shiro.business.entity.User;
-import com.study.shiro.business.vo.UserConditionVO;
-import com.study.shiro.business.entity.User;
 import com.study.shiro.business.vo.UserConditionVO;
 import com.study.shiro.framework.object.AbstractService;
+import com.study.shiro.persistence.beans.SysUser;
 
 import java.util.List;
 
@@ -38,7 +36,7 @@ import java.util.List;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
-public interface SysUserService extends AbstractService<User, Long> {
+public interface SysUserService extends AbstractService<SysUser, Long> {
 
     /**
      * 分页查询
@@ -46,7 +44,7 @@ public interface SysUserService extends AbstractService<User, Long> {
      * @param vo
      * @return
      */
-    PageInfo<User> findPageBreakByCondition(UserConditionVO vo);
+    PageInfo<SysUser> findPageBreakByCondition(UserConditionVO vo);
 
     /**
      * 更新用户最后一次登录的状态信息
@@ -54,15 +52,15 @@ public interface SysUserService extends AbstractService<User, Long> {
      * @param user
      * @return
      */
-    User updateUserLastLoginInfo(User user);
+    SysUser updateUserLastLoginInfo(SysUser user);
 
     /**
      * 根据用户名查找
      *
-     * @param userName
+     * @param username
      * @return
      */
-    User getByUserName(String userName);
+    SysUser getByUserName(String username);
 
     /**
      * 通过角色Id获取用户列表
@@ -70,6 +68,6 @@ public interface SysUserService extends AbstractService<User, Long> {
      * @param roleId
      * @return
      */
-    List<User> listByRoleId(Long roleId);
+    List<SysUser> listByRoleId(Long roleId);
 
 }

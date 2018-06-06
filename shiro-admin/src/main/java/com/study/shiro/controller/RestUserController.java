@@ -19,22 +19,14 @@
  */
 package com.study.shiro.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import com.study.shiro.business.entity.User;
 import com.study.shiro.business.enums.ResponseStatus;
 import com.study.shiro.business.service.SysUserRoleService;
 import com.study.shiro.business.service.SysUserService;
 import com.study.shiro.business.vo.UserConditionVO;
 import com.study.shiro.framework.object.*;
-import com.study.shiro.util.PasswordUtil;
-import com.study.shiro.util.ResultUtil;
-import com.study.shiro.business.entity.User;
-import com.study.shiro.business.enums.ResponseStatus;
-import com.study.shiro.business.service.SysUserRoleService;
-import com.study.shiro.business.service.SysUserService;
-import com.study.shiro.business.vo.UserConditionVO;
-import com.study.shiro.framework.object.PageResult;
-import com.study.shiro.framework.object.ResponseVO;
+import com.study.shiro.persistence.beans.SysUser;
 import com.study.shiro.util.PasswordUtil;
 import com.study.shiro.util.ResultUtil;
 import org.apache.shiro.authz.annotation.Logical;
@@ -66,7 +58,8 @@ public class RestUserController {
     @RequiresPermissions("users")
     @PostMapping("/list")
     public JsonResult list(UserConditionVO vo) {
-        PageInfo<User> pageInfo = userService.findPageBreakByCondition(vo);
+        PageInfo<SysUser> pageInfo = userService.findPageBreakByCondition(vo);
+        System.out.println(JSON.toJSONString(ResultUtil.build(pageInfo),true));
         return ResultUtil.build(pageInfo);
     }
 
@@ -91,8 +84,8 @@ public class RestUserController {
 
     @RequiresPermissions("user:add")
     @PostMapping(value = "/add")
-    public JsonResult add(User user) {
-        User u = userService.getByUserName(user.getUsername());
+    public JsonResult add(SysUser user) {
+        SysUser u = userService.getByUserName(user.getUsername());
         if (u != null) {
             return ResultUtil.build("该用户名[" + user.getUsername() + "]已存在！请更改用户名");
         }
@@ -127,7 +120,7 @@ public class RestUserController {
 
     @RequiresPermissions("user:edit")
     @PostMapping("/edit")
-    public JsonResult edit(User user) {
+    public JsonResult edit(SysUser user) {
         try {
             userService.updateSelective(user);
         } catch (Exception e) {

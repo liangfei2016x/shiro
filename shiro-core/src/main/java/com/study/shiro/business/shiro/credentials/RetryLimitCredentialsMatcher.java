@@ -20,8 +20,8 @@
 package com.study.shiro.business.shiro.credentials;
 
 import com.study.shiro.business.consts.SessionConst;
-import com.study.shiro.business.entity.User;
 import com.study.shiro.business.service.SysUserService;
+import com.study.shiro.persistence.beans.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -64,7 +64,7 @@ public class RetryLimitCredentialsMatcher extends CredentialsMatcher {
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         Long userId = (Long) info.getPrincipals().getPrimaryPrincipal();
-        User user = userService.getByPrimaryKey(userId);
+        SysUser user = userService.getByPrimaryKey(userId);
         String username = user.getUsername();
         // 访问一次，计数一次
         ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();

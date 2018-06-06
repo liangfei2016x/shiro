@@ -20,8 +20,8 @@
 package com.study.shiro.util;
 
 import com.study.shiro.business.consts.SessionConst;
-import com.study.shiro.business.entity.User;
 import com.study.shiro.framework.holder.RequestHolder;
+import com.study.shiro.persistence.beans.SysUser;
 
 import java.util.UUID;
 
@@ -41,8 +41,8 @@ public class SessionUtil {
      *
      * @return User
      */
-    public static User getUser() {
-        return (User) RequestHolder.getSession(SessionConst.USER_SESSION_KEY);
+    public static SysUser getUser() {
+        return (SysUser) RequestHolder.getSession(SessionConst.USER_SESSION_KEY);
     }
 
     /**
@@ -50,7 +50,7 @@ public class SessionUtil {
      *
      * @param user
      */
-    public static void setUser(User user) {
+    public static void setUser(SysUser user) {
         RequestHolder.setSession(SessionConst.USER_SESSION_KEY, user);
     }
 

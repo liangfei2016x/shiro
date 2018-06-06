@@ -66,6 +66,7 @@
                     // clickToSelect: true,                //是否启用点击选中行
                     // singleSelect: true,
                     // height: 505,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                    responseHandler:responseHandler,       //不符合此插件的数据类型 自己处理下
                     onEditableSave: function (field, row, oldValue, $el) {
                         if (options.updateUrl) {
                             $.ajax({
@@ -257,4 +258,11 @@ function getSelectedId() {
 function getSelectedObj() {
     var selectedJson = $("#tablelist").bootstrapTable('getAllSelections');
     return selectedJson;
+}
+
+function responseHandler(res){
+    return {
+        "rows":res.data.list,
+        "total":res.data.total
+    }
 }

@@ -20,18 +20,12 @@
 package com.study.shiro.business.service.impl;
 
 import com.study.shiro.business.entity.Resources;
-import com.study.shiro.business.entity.User;
-import com.study.shiro.business.service.ShiroService;
-import com.study.shiro.business.service.SysResourcesService;
-import com.study.shiro.business.service.SysUserService;
-import com.study.shiro.business.shiro.realm.ShiroRealm;
-import com.study.shiro.business.entity.Resources;
-import com.study.shiro.business.entity.User;
 import com.study.shiro.business.service.ShiroService;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.service.SysUserService;
 import com.study.shiro.business.shiro.realm.ShiroRealm;
 import com.study.shiro.framework.holder.SpringContextHolder;
+import com.study.shiro.persistence.beans.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -138,7 +132,7 @@ public class ShiroServiceImpl implements ShiroService {
      * @param user
      */
     @Override
-    public void reloadAuthorizingByUserId(User user) {
+    public void reloadAuthorizingByUserId(SysUser user) {
         RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
         ShiroRealm shiroRealm = (ShiroRealm) rsm.getRealms().iterator().next();
         Subject subject = SecurityUtils.getSubject();
@@ -159,11 +153,11 @@ public class ShiroServiceImpl implements ShiroService {
      */
     @Override
     public void reloadAuthorizingByRoleId(Long roleId) {
-        List<User> userList = userService.listByRoleId(roleId);
+        List<SysUser> userList = userService.listByRoleId(roleId);
         if (CollectionUtils.isEmpty(userList)) {
             return;
         }
-        for (User user : userList) {
+        for (SysUser user : userList) {
             reloadAuthorizingByUserId(user);
         }
     }

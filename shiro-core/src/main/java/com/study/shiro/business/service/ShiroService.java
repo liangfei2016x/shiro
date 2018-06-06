@@ -19,8 +19,7 @@
  */
 package com.study.shiro.business.service;
 
-import com.study.shiro.business.entity.User;
-import com.study.shiro.business.entity.User;
+import com.study.shiro.persistence.beans.SysUser;
 
 import java.util.Map;
 
@@ -50,7 +49,7 @@ public interface ShiroService {
      *
      * @param user
      */
-    void reloadAuthorizingByUserId(User user);
+    void reloadAuthorizingByUserId(SysUser user);
 
     /**
      * 重新加载所有拥有roleId角色的用户的权限

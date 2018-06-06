@@ -19,8 +19,8 @@
  */
 package com.study.shiro.business.vo;
 
-import com.study.shiro.business.entity.User;
 import com.study.shiro.framework.object.BaseConditionVO;
+import com.study.shiro.persistence.beans.SysUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,5 +35,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserConditionVO extends BaseConditionVO {
-    private User user;
+    private SysUser user;
 }

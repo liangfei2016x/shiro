@@ -22,10 +22,10 @@ package com.study.shiro.business.shiro.realm;
 import com.study.shiro.business.enums.UserStatusEnum;
 import com.study.shiro.business.entity.Resources;
 import com.study.shiro.business.entity.Role;
-import com.study.shiro.business.entity.User;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.service.SysRoleService;
 import com.study.shiro.business.service.SysUserService;
+import com.study.shiro.persistence.beans.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -64,7 +64,7 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户的输入的账号.
         String username = (String) token.getPrincipal();
-        User user = userService.getByUserName(username);
+        SysUser user = userService.getByUserName(username);
         if (user == null) {
             throw new UnknownAccountException("账号不存在！");
         }

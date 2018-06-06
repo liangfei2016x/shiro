@@ -39,11 +39,11 @@
                     console.log(result);
                     for (var i = 0; i < result.length; i++) {
                         html+="<li>";
-                        html+="<a><i class='"+result[i].icon+"'>"+result[i].name+"</i><span class=\"fa fa-chevron-down\"></span></a>";
+                        html+="<a><i class='"+result[i].icon+"'></i>"+result[i].name+"<span class=\"fa fa-chevron-down\"></span></a>";
                         var child = result[i].nodes;
-                        html+="<ul class=\"nav child_menu\" style=\"display: none;\">";
+                        html+="<ul class=\"nav child_menu\">";
                         for (var j = 0; j <child.length ; j++) {
-                            html+="<li><a th:href="+child[j].name+"><i>"+child[j].name+"</i></a></li>";
+                            html+="<li><a href="+child[j].url+"><i></i>"+child[j].name+"</a></li>";
                         }
                         html+="</ul>";
                         html+="</li>";

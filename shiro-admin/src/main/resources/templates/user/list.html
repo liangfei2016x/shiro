@@ -122,7 +122,7 @@
      */
     /*<![CDATA[*/
     function operateFormatter(code, row, index) {
-        var currentUserId = '${user.id}';
+        var currentUserId = $("#menu").attr("value");
         var trUserId = row.id;
         var operateBtn = [
             '<a shiro:hasPermission="user:edit" class="btn btn-xs btn-primary btn-update" data-id="' + trUserId + '"><i class="fa fa-edit"></i>编辑</a>',
