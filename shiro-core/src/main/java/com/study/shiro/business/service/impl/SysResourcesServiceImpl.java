@@ -21,10 +21,6 @@ package com.study.shiro.business.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.shiro.business.entity.Resources;
-import com.study.shiro.business.service.SysResourcesService;
-import com.study.shiro.business.vo.ResourceConditionVO;
-import com.study.shiro.business.entity.Resources;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.vo.ResourceConditionVO;
 import com.study.shiro.persistence.beans.SysResources;
@@ -58,18 +54,13 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public PageInfo<Resources> findPageBreakByCondition(ResourceConditionVO vo) {
+    public PageInfo<SysResources> findPageBreakByCondition(ResourceConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<SysResources> sysResources = resourceMapper.findPageBreakByCondition(vo);
         if (CollectionUtils.isEmpty(sysResources)) {
             return null;
         }
-        List<Resources> resources = new ArrayList<>();
-        for (SysResources r : sysResources) {
-            resources.add(new Resources(r));
-        }
         PageInfo bean = new PageInfo<SysResources>(sysResources);
-        bean.setList(resources);
         return bean;
     }
 
@@ -80,16 +71,12 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public List<Resources> listUserResources(Map<String, Object> map) {
+    public List<SysResources> listUserResources(Map<String, Object> map) {
         List<SysResources> sysResources = resourceMapper.listUserResources(map);
         if (CollectionUtils.isEmpty(sysResources)) {
             return null;
         }
-        List<Resources> resources = new ArrayList<>();
-        for (SysResources r : sysResources) {
-            resources.add(new Resources(r));
-        }
-        return resources;
+        return sysResources;
     }
 
     /**
@@ -123,9 +110,9 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public List<Resources> listUrlAndPermission() {
+    public List<SysResources> listUrlAndPermission() {
         List<SysResources> sysResources = resourceMapper.listUrlAndPermission();
-        return getResources(sysResources);
+        return sysResources;
     }
 
     /**
@@ -134,9 +121,9 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public List<Resources> listAllAvailableMenu() {
+    public List<SysResources> listAllAvailableMenu() {
         List<SysResources> sysResources = resourceMapper.listAllAvailableMenu();
-        return getResources(sysResources);
+        return sysResources;
     }
 
     /**
@@ -169,9 +156,9 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public List<Resources> listByUserId(Long userId) {
+    public List<SysResources> listByUserId(Long userId) {
         List<SysResources> sysResources = resourceMapper.listByUserId(userId);
-        return getResources(sysResources);
+        return sysResources;
     }
 
     /**
@@ -181,11 +168,11 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public Resources insert(Resources entity) {
+    public SysResources insert(SysResources entity) {
         Assert.notNull(entity, "Resources不可为空！");
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
-        resourceMapper.insert(entity.getSysResources());
+        resourceMapper.insert(entity);
         return entity;
     }
 
@@ -195,13 +182,13 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @param entities
      */
     @Override
-    public void insertList(List<Resources> entities) {
+    public void insertList(List<SysResources> entities) {
         Assert.notNull(entities, "entities不可为空！");
         List<SysResources> sysResources = new ArrayList<>();
-        for (Resources resources : entities) {
+        for (SysResources resources : entities) {
             resources.setUpdateTime(new Date());
             resources.setCreateTime(new Date());
-            sysResources.add(resources.getSysResources());
+            sysResources.add(resources);
         }
         resourceMapper.insertList(sysResources);
     }
@@ -224,10 +211,10 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public boolean update(Resources entity) {
+    public boolean update(SysResources entity) {
         Assert.notNull(entity, "Resources不可为空！");
         entity.setUpdateTime(new Date());
-        return resourceMapper.updateByPrimaryKey(entity.getSysResources()) > 0;
+        return resourceMapper.updateByPrimaryKey(entity) > 0;
     }
 
     /**
@@ -237,10 +224,10 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public boolean updateSelective(Resources entity) {
+    public boolean updateSelective(SysResources entity) {
         Assert.notNull(entity, "Resources不可为空！");
         entity.setUpdateTime(new Date());
-        return resourceMapper.updateByPrimaryKeySelective(entity.getSysResources()) > 0;
+        return resourceMapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     /**
@@ -250,10 +237,10 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public Resources getByPrimaryKey(Long primaryKey) {
+    public SysResources getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         SysResources sysResources = resourceMapper.selectByPrimaryKey(primaryKey);
-        return null == sysResources ? null : new Resources(sysResources);
+        return null == sysResources ? null : sysResources;
     }
 
     /**
@@ -263,10 +250,10 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public Resources getOneByEntity(Resources entity) {
+    public SysResources getOneByEntity(SysResources entity) {
         Assert.notNull(entity, "User不可为空！");
-        SysResources sysResources = resourceMapper.selectOne(entity.getSysResources());
-        return null == sysResources ? null : new Resources(sysResources);
+        SysResources sysResources = resourceMapper.selectOne(entity);
+        return null == sysResources ? null : sysResources;
     }
 
     /**
@@ -275,9 +262,9 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public List<Resources> listAll() {
+    public List<SysResources> listAll() {
         List<SysResources> sysResources = resourceMapper.selectAll();
-        return getResources(sysResources);
+        return sysResources;
     }
 
     /**
@@ -287,20 +274,10 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
-    public List<Resources> listByEntity(Resources entity) {
+    public List<SysResources> listByEntity(SysResources entity) {
         Assert.notNull(entity, "Resources不可为空！");
-        List<SysResources> sysResources = resourceMapper.select(entity.getSysResources());
-        return getResources(sysResources);
+        List<SysResources> sysResources = resourceMapper.select(entity);
+        return sysResources;
     }
 
-    private List<Resources> getResources(List<SysResources> sysResources) {
-        if (CollectionUtils.isEmpty(sysResources)) {
-            return null;
-        }
-        List<Resources> resources = new ArrayList<>();
-        for (SysResources r : sysResources) {
-            resources.add(new Resources(r));
-        }
-        return resources;
-    }
 }

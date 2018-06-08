@@ -21,10 +21,6 @@ package com.study.shiro.business.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.shiro.business.entity.Role;
-import com.study.shiro.business.service.SysRoleService;
-import com.study.shiro.business.vo.RoleConditionVO;
-import com.study.shiro.business.entity.Role;
 import com.study.shiro.business.service.SysRoleService;
 import com.study.shiro.business.vo.RoleConditionVO;
 import com.study.shiro.persistence.beans.SysRole;
@@ -83,18 +79,13 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public PageInfo<Role> findPageBreakByCondition(RoleConditionVO vo) {
+    public PageInfo<SysRole> findPageBreakByCondition(RoleConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<SysRole> sysRoles = roleMapper.findPageBreakByCondition(vo);
         if (CollectionUtils.isEmpty(sysRoles)) {
             return null;
         }
-        List<Role> roles = new ArrayList<>();
-        for (SysRole r : sysRoles) {
-            roles.add(new Role(r));
-        }
         PageInfo bean = new PageInfo<SysRole>(sysRoles);
-        bean.setList(roles);
         return bean;
     }
 
@@ -105,16 +96,12 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public List<Role> listRolesByUserId(Long userId) {
+    public List<SysRole> listRolesByUserId(Long userId) {
         List<SysRole> sysRoles = roleMapper.listRolesByUserId(userId);
         if (CollectionUtils.isEmpty(sysRoles)) {
             return null;
         }
-        List<Role> roles = new ArrayList<>();
-        for (SysRole r : sysRoles) {
-            roles.add(new Role(r));
-        }
-        return roles;
+        return sysRoles;
     }
 
     /**
@@ -124,11 +111,11 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public Role insert(Role entity) {
+    public SysRole insert(SysRole entity) {
         Assert.notNull(entity, "Role不可为空！");
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
-        roleMapper.insert(entity.getSysRole());
+        roleMapper.insert(entity);
         return entity;
     }
 
@@ -138,13 +125,13 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @param entities
      */
     @Override
-    public void insertList(List<Role> entities) {
+    public void insertList(List<SysRole> entities) {
         Assert.notNull(entities, "entities不可为空！");
         List<SysRole> sysRole = new ArrayList<>();
-        for (Role role : entities) {
+        for (SysRole role : entities) {
             role.setUpdateTime(new Date());
             role.setCreateTime(new Date());
-            sysRole.add(role.getSysRole());
+            sysRole.add(role);
         }
         roleMapper.insertList(sysRole);
     }
@@ -167,10 +154,10 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public boolean update(Role entity) {
+    public boolean update(SysRole entity) {
         Assert.notNull(entity, "Role不可为空！");
         entity.setUpdateTime(new Date());
-        return roleMapper.updateByPrimaryKey(entity.getSysRole()) > 0;
+        return roleMapper.updateByPrimaryKey(entity) > 0;
     }
 
     /**
@@ -180,10 +167,10 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public boolean updateSelective(Role entity) {
+    public boolean updateSelective(SysRole entity) {
         Assert.notNull(entity, "Role不可为空！");
         entity.setUpdateTime(new Date());
-        return roleMapper.updateByPrimaryKeySelective(entity.getSysRole()) > 0;
+        return roleMapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     /**
@@ -193,10 +180,10 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public Role getByPrimaryKey(Long primaryKey) {
+    public SysRole getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         SysRole sysRole = roleMapper.selectByPrimaryKey(primaryKey);
-        return null == sysRole ? null : new Role(sysRole);
+        return null == sysRole ? null : sysRole;
     }
 
     /**
@@ -206,10 +193,10 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public Role getOneByEntity(Role entity) {
+    public SysRole getOneByEntity(SysRole entity) {
         Assert.notNull(entity, "User不可为空！");
-        SysRole sysRole = roleMapper.selectOne(entity.getSysRole());
-        return null == sysRole ? null : new Role(sysRole);
+        SysRole sysRole = roleMapper.selectOne(entity);
+        return null == sysRole ? null : sysRole;
     }
 
     /**
@@ -218,9 +205,9 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public List<Role> listAll() {
+    public List<SysRole> listAll() {
         List<SysRole> sysRole = roleMapper.selectAll();
-        return getRole(sysRole);
+        return sysRole;
     }
 
     /**
@@ -230,20 +217,9 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return
      */
     @Override
-    public List<Role> listByEntity(Role entity) {
+    public List<SysRole> listByEntity(SysRole entity) {
         Assert.notNull(entity, "Role不可为空！");
-        List<SysRole> sysRole = roleMapper.select(entity.getSysRole());
-        return getRole(sysRole);
-    }
-
-    private List<Role> getRole(List<SysRole> sysRole) {
-        if (CollectionUtils.isEmpty(sysRole)) {
-            return null;
-        }
-        List<Role> roleList = new ArrayList<>();
-        for (SysRole r : sysRole) {
-            roleList.add(new Role(r));
-        }
-        return roleList;
+        List<SysRole> sysRole = roleMapper.select(entity);
+        return sysRole;
     }
 }

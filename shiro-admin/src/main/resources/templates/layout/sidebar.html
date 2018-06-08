@@ -4,13 +4,6 @@
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
         <div class="menu_section">
             <ul class="nav side-menu" id="menu" th:value="${session.user.id}">
-                <li><a href="/index"><i class="fa fa-home"></i>首页</a></li>
-                <li class="" th:each="resource:${resources}">
-                    <a><i class="fa fa-users" th:text="${resource.name}">用户管理</i><span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="display: none;">
-                        <li th:each="node:${resource.nodes}"><a th:href="${node.url}"><i class="" th:text="${node.name}">用户列表</i></a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
     </div>

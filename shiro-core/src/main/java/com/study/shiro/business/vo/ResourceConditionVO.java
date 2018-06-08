@@ -19,7 +19,6 @@
  */
 package com.study.shiro.business.vo;
 
-import com.study.shiro.business.entity.Resources;
 import com.study.shiro.framework.object.BaseConditionVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -19,12 +19,12 @@
  */
 package com.study.shiro.business.service.impl;
 
-import com.study.shiro.business.entity.Resources;
 import com.study.shiro.business.service.ShiroService;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.service.SysUserService;
 import com.study.shiro.business.shiro.realm.ShiroRealm;
 import com.study.shiro.framework.holder.SpringContextHolder;
+import com.study.shiro.persistence.beans.SysResources;
 import com.study.shiro.persistence.beans.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
@@ -83,8 +83,8 @@ public class ShiroServiceImpl implements ShiroService {
         filterChainDefinitionMap.put("/error", "anon");
         filterChainDefinitionMap.put("/assets/**", "anon");
         // 加载数据库中配置的资源权限列表
-        List<Resources> resourcesList = resourcesService.listUrlAndPermission();
-        for (Resources resources : resourcesList) {
+        List<SysResources> resourcesList = resourcesService.listUrlAndPermission();
+        for (SysResources resources : resourcesList) {
             if (!StringUtils.isEmpty(resources.getUrl()) && !StringUtils.isEmpty(resources.getPermission())) {
                 String permission = "perms[" + resources.getPermission() + "]";
                 filterChainDefinitionMap.put(resources.getUrl(), permission);

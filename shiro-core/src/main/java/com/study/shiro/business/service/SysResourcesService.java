@@ -20,11 +20,9 @@
 package com.study.shiro.business.service;
 
 import com.github.pagehelper.PageInfo;
-import com.study.shiro.business.entity.Resources;
-import com.study.shiro.business.vo.ResourceConditionVO;
-import com.study.shiro.business.entity.Resources;
 import com.study.shiro.business.vo.ResourceConditionVO;
 import com.study.shiro.framework.object.AbstractService;
+import com.study.shiro.persistence.beans.SysResources;
 
 import java.util.List;
 import java.util.Map;
@@ -38,7 +36,7 @@ import java.util.Map;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
-public interface SysResourcesService extends AbstractService<Resources, Long> {
+public interface SysResourcesService extends AbstractService<SysResources, Long> {
 
     /**
      * 分页查询
@@ -46,7 +44,7 @@ public interface SysResourcesService extends AbstractService<Resources, Long> {
      * @param vo
      * @return
      */
-    PageInfo<Resources> findPageBreakByCondition(ResourceConditionVO vo);
+    PageInfo<SysResources> findPageBreakByCondition(ResourceConditionVO vo);
 
     /**
      * 获取用户的资源列表
@@ -54,7 +52,7 @@ public interface SysResourcesService extends AbstractService<Resources, Long> {
      * @param map
      * @return
      */
-    List<Resources> listUserResources(Map<String, Object> map);
+    List<SysResources> listUserResources(Map<String, Object> map);
 
     /**
      * 获取ztree使用的资源列表
@@ -69,14 +67,14 @@ public interface SysResourcesService extends AbstractService<Resources, Long> {
      *
      * @return
      */
-    List<Resources> listUrlAndPermission();
+    List<SysResources> listUrlAndPermission();
 
     /**
      * 获取所有可用的菜单资源
      *
      * @return
      */
-    List<Resources> listAllAvailableMenu();
+    List<SysResources> listAllAvailableMenu();
 
     /**
      * 获取父级资源下所有menu资源
@@ -91,5 +89,5 @@ public interface SysResourcesService extends AbstractService<Resources, Long> {
      * @param userId
      * @return
      */
-    List<Resources> listByUserId(Long userId);
+    List<SysResources> listByUserId(Long userId);
 }

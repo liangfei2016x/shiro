@@ -19,6 +19,7 @@
  */
 package com.study.shiro.persistence.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.study.shiro.framework.object.AbstractDO;
 import com.study.shiro.util.PasswordUtil;
 import lombok.Data;

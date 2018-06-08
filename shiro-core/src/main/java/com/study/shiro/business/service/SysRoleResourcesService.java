@@ -20,9 +20,8 @@
 package com.study.shiro.business.service;
 
 
-import com.study.shiro.business.entity.RoleResources;
-import com.study.shiro.business.entity.RoleResources;
 import com.study.shiro.framework.object.AbstractService;
+import com.study.shiro.persistence.beans.SysRoleResources;
 
 /**
  * 角色资源
@@ -33,7 +32,7 @@ import com.study.shiro.framework.object.AbstractService;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
-public interface SysRoleResourcesService extends AbstractService<RoleResources, Long> {
+public interface SysRoleResourcesService extends AbstractService<SysRoleResources, Long> {
 
     /**
      * 添加角色资源

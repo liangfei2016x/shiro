@@ -20,22 +20,13 @@
 package com.study.shiro.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.study.shiro.business.entity.Role;
 import com.study.shiro.business.enums.ResponseStatus;
 import com.study.shiro.business.service.ShiroService;
 import com.study.shiro.business.service.SysRoleResourcesService;
 import com.study.shiro.business.service.SysRoleService;
 import com.study.shiro.business.vo.RoleConditionVO;
 import com.study.shiro.framework.object.*;
-import com.study.shiro.util.ResultUtil;
-import com.study.shiro.business.entity.Role;
-import com.study.shiro.business.enums.ResponseStatus;
-import com.study.shiro.business.service.ShiroService;
-import com.study.shiro.business.service.SysRoleResourcesService;
-import com.study.shiro.business.service.SysRoleService;
-import com.study.shiro.business.vo.RoleConditionVO;
-import com.study.shiro.framework.object.PageResult;
-import com.study.shiro.framework.object.ResponseVO;
+import com.study.shiro.persistence.beans.SysRole;
 import com.study.shiro.util.ResultUtil;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -45,8 +36,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * 系统角色管理
@@ -70,7 +59,7 @@ public class RestRoleController {
     @RequiresPermissions("roles")
     @PostMapping("/list")
     public JsonResult getAll(RoleConditionVO vo) {
-        PageInfo<Role> pageInfo = roleService.findPageBreakByCondition(vo);
+        PageInfo<SysRole> pageInfo = roleService.findPageBreakByCondition(vo);
         return ResultUtil.build(pageInfo);
     }
 
@@ -94,7 +83,7 @@ public class RestRoleController {
 
     @RequiresPermissions("role:add")
     @PostMapping(value = "/add")
-    public JsonResult add(Role role) {
+    public JsonResult add(SysRole role) {
         roleService.insert(role);
         return ResultUtil.build(ResponseStatus.SUCCESS,"成功");
     }
@@ -120,7 +109,7 @@ public class RestRoleController {
 
     @RequiresPermissions("role:edit")
     @PostMapping("/edit")
-    public JsonResult edit(Role role) {
+    public JsonResult edit(SysRole role) {
         try {
             roleService.updateSelective(role);
         } catch (Exception e) {

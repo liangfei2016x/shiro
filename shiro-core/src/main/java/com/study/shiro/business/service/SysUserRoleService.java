@@ -20,9 +20,8 @@
 package com.study.shiro.business.service;
 
 
-import com.study.shiro.business.entity.UserRole;
-import com.study.shiro.business.entity.UserRole;
 import com.study.shiro.framework.object.AbstractService;
+import com.study.shiro.persistence.beans.SysUserRole;
 
 /**
  * 用户角色
@@ -33,7 +32,7 @@ import com.study.shiro.framework.object.AbstractService;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
-public interface SysUserRoleService extends AbstractService<UserRole, Long> {
+public interface SysUserRoleService extends AbstractService<SysUserRole, Long> {
 
     /**
      * 添加用户角色

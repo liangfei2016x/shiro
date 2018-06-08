@@ -20,11 +20,11 @@
 package com.study.shiro.business.shiro.realm;
 
 import com.study.shiro.business.enums.UserStatusEnum;
-import com.study.shiro.business.entity.Resources;
-import com.study.shiro.business.entity.Role;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.service.SysRoleService;
 import com.study.shiro.business.service.SysUserService;
+import com.study.shiro.persistence.beans.SysResources;
+import com.study.shiro.persistence.beans.SysRole;
 import com.study.shiro.persistence.beans.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -92,15 +92,15 @@ public class ShiroRealm extends AuthorizingRealm {
         Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
 
         // 赋予角色
-        List<Role> roleList = roleService.listRolesByUserId(userId);
-        for (Role role : roleList) {
+        List<SysRole> roleList = roleService.listRolesByUserId(userId);
+        for (SysRole role : roleList) {
             info.addRole(role.getName());
         }
 
         // 赋予权限
-        List<Resources> resourcesList = resourcesService.listByUserId(userId);
+        List<SysResources> resourcesList = resourcesService.listByUserId(userId);
         if (!CollectionUtils.isEmpty(resourcesList)) {
-            for (Resources resources : resourcesList) {
+            for (SysResources resources : resourcesList) {
                 String permission = resources.getPermission();
                 System.out.println(resources.getName() + "   " + permission);
                 if (!StringUtils.isEmpty(permission)) {

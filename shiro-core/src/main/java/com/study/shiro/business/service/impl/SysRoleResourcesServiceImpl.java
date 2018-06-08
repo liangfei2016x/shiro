@@ -19,9 +19,6 @@
  */
 package com.study.shiro.business.service.impl;
 
-import com.study.shiro.business.entity.RoleResources;
-import com.study.shiro.business.service.SysRoleResourcesService;
-import com.study.shiro.business.entity.RoleResources;
 import com.study.shiro.business.service.SysRoleResourcesService;
 import com.study.shiro.persistence.beans.SysRoleResources;
 import com.study.shiro.persistence.mapper.SysRoleResourcesMapper;
@@ -59,11 +56,11 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @return
      */
     @Override
-    public RoleResources insert(RoleResources entity) {
+    public SysRoleResources insert(SysRoleResources entity) {
         Assert.notNull(entity, "RoleResources不可为空！");
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
-        resourceMapper.insert(entity.getSysRoleResources());
+        resourceMapper.insert(entity);
         return entity;
     }
 
@@ -73,16 +70,16 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @param entities
      */
     @Override
-    public void insertList(List<RoleResources> entities) {
+    public void insertList(List<SysRoleResources> entities) {
         Assert.notNull(entities, "entities不可为空！");
         if (CollectionUtils.isEmpty(entities)) {
             return;
         }
         List<SysRoleResources> sysRoleResources = new ArrayList<>();
-        for (RoleResources rr : entities) {
+        for (SysRoleResources rr : entities) {
             rr.setUpdateTime(new Date());
             rr.setCreateTime(new Date());
-            sysRoleResources.add(rr.getSysRoleResources());
+            sysRoleResources.add(rr);
         }
         resourceMapper.insertList(sysRoleResources);
     }
@@ -105,10 +102,10 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @return
      */
     @Override
-    public boolean update(RoleResources entity) {
+    public boolean update(SysRoleResources entity) {
         Assert.notNull(entity, "RoleResources不可为空！");
         entity.setUpdateTime(new Date());
-        return resourceMapper.updateByPrimaryKey(entity.getSysRoleResources()) > 0;
+        return resourceMapper.updateByPrimaryKey(entity) > 0;
     }
 
     /**
@@ -118,10 +115,10 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @return
      */
     @Override
-    public boolean updateSelective(RoleResources entity) {
+    public boolean updateSelective(SysRoleResources entity) {
         Assert.notNull(entity, "RoleResources不可为空！");
         entity.setUpdateTime(new Date());
-        return resourceMapper.updateByPrimaryKeySelective(entity.getSysRoleResources()) > 0;
+        return resourceMapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     /**
@@ -131,10 +128,10 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @return
      */
     @Override
-    public RoleResources getByPrimaryKey(Long primaryKey) {
+    public SysRoleResources getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         SysRoleResources sysRoleResources = resourceMapper.selectByPrimaryKey(primaryKey);
-        return null == sysRoleResources ? null : new RoleResources(sysRoleResources);
+        return null == sysRoleResources ? null : sysRoleResources;
     }
 
     /**
@@ -144,10 +141,10 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @return
      */
     @Override
-    public RoleResources getOneByEntity(RoleResources entity) {
+    public SysRoleResources getOneByEntity(SysRoleResources entity) {
         Assert.notNull(entity, "User不可为空！");
-        SysRoleResources sysRoleResources = resourceMapper.selectOne(entity.getSysRoleResources());
-        return null == sysRoleResources ? null : new RoleResources(sysRoleResources);
+        SysRoleResources sysRoleResources = resourceMapper.selectOne(entity);
+        return null == sysRoleResources ? null : sysRoleResources;
     }
 
     /**
@@ -156,9 +153,9 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @return
      */
     @Override
-    public List<RoleResources> listAll() {
+    public List<SysRoleResources> listAll() {
         List<SysRoleResources> sysRoleResources = resourceMapper.selectAll();
-        return getRoleResources(sysRoleResources);
+        return sysRoleResources;
     }
 
     /**
@@ -168,23 +165,11 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
      * @return
      */
     @Override
-    public List<RoleResources> listByEntity(RoleResources entity) {
+    public List<SysRoleResources> listByEntity(SysRoleResources entity) {
         Assert.notNull(entity, "RoleResources不可为空！");
-        List<SysRoleResources> sysRoleResources = resourceMapper.select(entity.getSysRoleResources());
-        return getRoleResources(sysRoleResources);
+        List<SysRoleResources> sysRoleResources = resourceMapper.select(entity);
+        return sysRoleResources;
     }
-
-    private List<RoleResources> getRoleResources(List<SysRoleResources> sysRoleResources) {
-        if (CollectionUtils.isEmpty(sysRoleResources)) {
-            return null;
-        }
-        List<RoleResources> rr = new ArrayList<>();
-        for (SysRoleResources r : sysRoleResources) {
-            rr.add(new RoleResources(r));
-        }
-        return rr;
-    }
-
     /**
      * 添加角色资源
      * 该节代码参考自http://blog.csdn.net/poorcoder_/article/details/71374002

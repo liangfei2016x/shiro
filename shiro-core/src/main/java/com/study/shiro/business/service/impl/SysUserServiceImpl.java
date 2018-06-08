@@ -204,12 +204,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (CollectionUtils.isEmpty(sysUsers)) {
             return null;
         }
-        List<SysUser> users = new ArrayList<>();
-        for (SysUser su : sysUsers) {
-            users.add(su);
-        }
         PageInfo bean = new PageInfo<SysUser>(sysUsers);
-        bean.setList(users);
         return bean;
     }
 

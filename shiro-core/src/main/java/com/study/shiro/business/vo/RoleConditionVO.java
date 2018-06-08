@@ -19,8 +19,8 @@
  */
 package com.study.shiro.business.vo;
 
-import com.study.shiro.business.entity.Role;
 import com.study.shiro.framework.object.BaseConditionVO;
+import com.study.shiro.persistence.beans.SysRole;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,6 +35,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class RoleConditionVO extends BaseConditionVO {
-    private Role role;
+    private SysRole role;
 }
 

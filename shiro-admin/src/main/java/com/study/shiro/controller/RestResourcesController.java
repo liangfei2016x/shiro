@@ -19,22 +19,13 @@
  */
 package com.study.shiro.controller;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.shiro.business.entity.Resources;
 import com.study.shiro.business.enums.ResponseStatus;
 import com.study.shiro.business.service.ShiroService;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.vo.ResourceConditionVO;
 import com.study.shiro.framework.object.*;
-import com.study.shiro.util.ResultUtil;
-import com.study.shiro.business.entity.Resources;
-import com.study.shiro.business.enums.ResponseStatus;
-import com.study.shiro.business.service.ShiroService;
-import com.study.shiro.business.service.SysResourcesService;
-import com.study.shiro.business.vo.ResourceConditionVO;
-import com.study.shiro.framework.object.PageResult;
-import com.study.shiro.framework.object.ResponseVO;
+import com.study.shiro.persistence.beans.SysResources;
 import com.study.shiro.util.ResultUtil;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -65,7 +56,7 @@ public class RestResourcesController {
     @RequiresPermissions("resources")
     @PostMapping("/list")
     public JsonResult getAll(ResourceConditionVO vo) {
-        PageInfo<Resources> pageInfo = resourcesService.findPageBreakByCondition(vo);
+        PageInfo<SysResources> pageInfo = resourcesService.findPageBreakByCondition(vo);
         return ResultUtil.build(pageInfo);
     }
 
@@ -77,7 +68,7 @@ public class RestResourcesController {
 
     @RequiresPermissions("resource:add")
     @PostMapping(value = "/add")
-    public JsonResult add(Resources resources) {
+    public JsonResult add(SysResources resources) {
         resourcesService.insert(resources);
         //更新权限
         shiroService.updatePermission();
@@ -107,7 +98,7 @@ public class RestResourcesController {
 
     @RequiresPermissions("resource:edit")
     @PostMapping("/edit")
-    public JsonResult edit(Resources resources) {
+    public JsonResult edit(SysResources resources) {
         try {
             resourcesService.updateSelective(resources);
         } catch (Exception e) {
