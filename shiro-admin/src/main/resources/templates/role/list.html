@@ -4,33 +4,36 @@
 <div th:replace="layout/header::header(null,null)"></div>
 <body class="nav-md">
 <div class="container body">
-    <div th:replace="layout/header::header-body"></div>
-    <div class="clearfix"></div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="/">首页</a></li>
-                <li class="active">角色管理</li>
-            </ol>
-            <div class="x_panel">
-                <div class="x_content">
-                    <div class="table-responsive">
-                        <div class="btn-group hidden-xs" id="toolbar">
-                            <button shiro:hasPermission="role:add" id="btn_add" type="button" class="btn btn-default" title="新增角色">
-                                <i class="fa fa-plus"></i> 新增角色
-                            </button>
-                            <button shiro:hasPermission="role:batchDelete" id="btn_delete_ids" type="button" class="btn btn-default" title="删除选中">
-                                <i class="fa fa-trash-o"></i> 批量删除
-                            </button>
+    <div th:replace="/layout/header::header-body-1"></div>
+    <div th:replace="/layout/header::header-body-2"></div>
+    <div class="right_col" role="main">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/">首页</a></li>
+                    <li class="active">角色管理</li>
+                </ol>
+                <div class="x_panel">
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <div class="btn-group hidden-xs" id="toolbar">
+                                <button shiro:hasPermission="role:add" id="btn_add" type="button" class="btn btn-default" title="新增角色">
+                                    <i class="fa fa-plus"></i> 新增角色
+                                </button>
+                                <button shiro:hasPermission="role:batchDelete" id="btn_delete_ids" type="button" class="btn btn-default" title="删除选中">
+                                    <i class="fa fa-trash-o"></i> 批量删除
+                                </button>
+                            </div>
+                            <table id="tablelist"></table>
                         </div>
-                        <table id="tablelist"></table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div th:replace="layout/footer::footer"></div>
 </div>
-<div th:replace="layout/footer::footer"></div>
 </body>
 </html>
 <!--弹框-->
