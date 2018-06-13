@@ -93,7 +93,7 @@ public class RestResourcesController {
     @RequiresPermissions("resource:edit")
     @PostMapping("/get/{id}")
     public JsonResult get(@PathVariable Long id) {
-        return ResultUtil.build(null, this.resourcesService.getByPrimaryKey(id));
+        return ResultUtil.build(this.resourcesService.getByPrimaryKey(id));
     }
 
     @RequiresPermissions("resource:edit")
