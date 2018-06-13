@@ -35,7 +35,6 @@
     <div th:replace="layout/footer::footer"></div>
 </div>
 </body>
-</html>
 <!--弹框-->
 <div class="modal fade bs-example-modal-sm" id="selectRole" tabindex="-1" role="dialog" aria-labelledby="selectRoleLabel">
     <div class="modal-dialog modal-sm" role="document">
@@ -113,9 +112,9 @@
             </div>
         </div>
     </div>
-</div>
+</div >
 <!--/添加用户弹框-->
-<script>
+<script th:inline="javascript">
     /**
      * 操作按钮
      * @param code
@@ -125,14 +124,21 @@
      */
     /*<![CDATA[*/
     function operateFormatter(code, row, index) {
-        var currentUserId = $("#menu").attr("value");
-        var trUserId = row.id;
-        var operateBtn = [
-            '<a shiro:hasPermission="user:edit" class="btn btn-xs btn-primary btn-update" data-id="' + trUserId + '"><i class="fa fa-edit"></i>编辑</a>',
-        ];
-        if (currentUserId != trUserId) {
-            operateBtn.push('<a shiro.hasPermission="user:delete" class="btn btn-xs btn-danger btn-remove" data-id="' + trUserId + '"><i class="fa fa-trash-o"></i>删除</a>');
-            operateBtn.push('<a shiro.hasPermission="user:allotRole" class="btn btn-xs btn-info btn-allot" data-id="' + trUserId + '"><i class="fa fa-circle-thin"></i>分配角色</a>')
+        var permissions = [[${session.permissions}]];
+        console.log(permissions);
+        var trId = row.id;
+        var operateBtn = new Array();
+        /**
+         *arr.includes 方法也可以
+         **/
+        if(permissions.indexOf("user:edit")>-1){
+            operateBtn.push('<a class="btn btn-xs btn-primary btn-update" data-id="' + trId + '"><i class="fa fa-edit"></i>编辑</a>');
+        }
+        if(permissions.indexOf("user:delete")>-1){
+            operateBtn.push('<a class="btn btn-xs btn-danger btn-remove" data-id="' + trId + '"><i class="fa fa-trash-o"></i>删除</a>');
+        }
+        if (permissions.indexOf("user:allotRole")>-1) {
+            operateBtn.push('<a class="btn btn-xs btn-info btn-allot" data-id="' + trId + '"><i class="fa fa-circle-thin"></i>分配角色</a>');
         }
         return operateBtn.join('');
     }
@@ -248,3 +254,4 @@
     });
     /*]]>*/
 </script>
+</html>

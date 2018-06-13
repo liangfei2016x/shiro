@@ -19,6 +19,8 @@
  */
 package com.study.shiro.business.shiro.realm;
 
+import com.alibaba.fastjson.JSON;
+import com.study.shiro.business.consts.SessionConst;
 import com.study.shiro.business.enums.UserStatusEnum;
 import com.study.shiro.business.service.SysResourcesService;
 import com.study.shiro.business.service.SysRoleService;
@@ -38,6 +40,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Shiro-密码输入错误的状态下重试次数的匹配管理
@@ -108,6 +111,10 @@ public class ShiroRealm extends AuthorizingRealm {
                 }
             }
         }
+        /**
+         * 权限放在session里面 在JS里面渲染权限标签用
+         */
+        SecurityUtils.getSubject().getSession().setAttribute("permissions", info.getStringPermissions());
         return info;
     }
 

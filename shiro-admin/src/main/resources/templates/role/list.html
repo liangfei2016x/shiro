@@ -35,9 +35,8 @@
     <div th:replace="layout/footer::footer"></div>
 </div>
 </body>
-</html>
 <!--弹框-->
-<!--<div class="modal fade bs-example-modal-sm" id="selectRole" tabindex="-1" role="dialog" aria-labelledby="selectRoleLabel">
+<div class="modal fade bs-example-modal-sm" id="selectRole" tabindex="-1" role="dialog" aria-labelledby="selectRoleLabel">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -56,10 +55,10 @@
             </div>
         </div>
     </div>
-</div>-->
-<!--/弹框-->
+</div>
+/弹框
 <!--添加角色弹框-->
-<!--<div class="modal fade" id="addOrUpdateModal" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
+<div class="modal fade" id="addOrUpdateModal" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,8 +66,8 @@
                 <h4 class="modal-title" id="addroleLabel">添加角色</h4>
             </div>
             <div class="modal-body">
-                <form id="addOrUpdateForm" class="form-horizontal form-label-left" novalidate>
-                    <input type="hidden" name="id">
+                <form id="addOrUpdateForm" class="form-horizontal form-label-left" novalidate="">
+                    <input type="hidden" name="id"/>
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">角色名称: <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -93,9 +92,9 @@
             </div>
         </div>
     </div>
-</div>-->
+</div>
 <!--/添加角色弹框-->
-<script>
+<script th:inline="javascript">
     /**
      * 操作按钮
      * @param code
@@ -105,12 +104,21 @@
      */
     /*<![CDATA[*/
     function operateFormatter(code, row, index) {
+        var permissions = [[${session.permissions}]];
         var trId = row.id;
-        var operateBtn = [
-            '<a shiro.hasPermission="role:edit" class="btn btn-xs btn-primary btn-update" data-id="' + trId + '"><i class="fa fa-edit"></i>编辑</a>',
-            '<a hiro.hasPermission="role:delete" class="btn btn-xs btn-danger btn-remove" data-id="' + trId + '"><i class="fa fa-trash-o"></i>删除</a>',
-            '<a shiro.hasPermission="role:allotResource" class="btn btn-xs btn-info btn-allot" data-id="' + trId + '"><i class="fa fa-circle-thin"></i>分配资源</a>'
-        ];
+        var operateBtn = new Array();
+        /**
+         *arr.includes 方法也可以
+         **/
+        if(permissions.indexOf("role:edit")>-1){
+            operateBtn.push('<a class="btn btn-xs btn-primary btn-update" data-id="' + trId + '"><i class="fa fa-edit"></i>编辑</a>');
+        }
+        if(permissions.indexOf("role:delete")>-1){
+            operateBtn.push('<a class="btn btn-xs btn-danger btn-remove" data-id="' + trId + '"><i class="fa fa-trash-o"></i>删除</a>');
+        }
+        if (permissions.indexOf("role:allotResource")>-1) {
+            operateBtn.push('<a class="btn btn-xs btn-info btn-allot" data-id="' + trId + '"><i class="fa fa-circle-thin"></i>分配角色</a>')
+        }
         return operateBtn.join('');
     }
 
@@ -202,3 +210,4 @@
     });
     /*]]>*/
 </script>
+</html>

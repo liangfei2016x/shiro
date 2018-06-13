@@ -56,8 +56,7 @@ import java.util.Map;
  * @since 1.0
  */
 @Controller
-public class
-RenderController {
+public class RenderController {
 
     @Autowired
     SysUserService userService;
